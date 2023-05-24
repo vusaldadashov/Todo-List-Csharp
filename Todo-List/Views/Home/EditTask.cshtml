@@ -1,0 +1,36 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@model TodoTask
+
+
+<div class="d-flex justify-content-center">
+    <form class="w-50" method="post" asp-controller="Home" asp-action="SaveEditedTask">
+        <div class="form-group mb-2">
+            <label class="form-label">Title</label>
+            <input class="form-control" type="text" value=@Model.Title name="Title" asp-for=@Model.Title />
+        </div>
+        <div class="form-group mb-2">
+            <label class="form-label">Description</label>
+            <input class="form-control" type="text" value=@Model.Description name="Description" asp-for=@Model.Description />
+        </div>
+        <div class="form-group mb-2 d-flex flex-column">
+            <label class="form-label">Status</label>
+            <select class="w-25" name="Status" value=@Model.Status asp-for=@Model.Status >
+                <option value="Incompleted">Incompleted</option>
+                <option value="Completed">Completed</option>
+            </select>
+        </div>
+        <div class="w-50 mb-2">
+            <label class="form-label">Deadline</label>
+            <input class="form-control" type="date" name="Deadline" value=@Model.Deadline.ToString("yyyy-MM-dd") asp-for=@Model.Deadline />
+        </div>
+        <div class="form-group">
+            <input type="hidden" value=@Model.Id  name="Id" asp-for=@Model.Id />
+            <button class="btn btn-success" type="submit">Save</button>
+        </div>
+    </form>
+</div>

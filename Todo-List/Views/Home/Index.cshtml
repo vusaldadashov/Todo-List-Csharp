@@ -1,0 +1,95 @@
+﻿@model List<TodoTask>
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+
+
+<div class="d-flex flex-row">
+    <div class="w-25 h-25 border p-4 rounded">
+        <h3>Create Task</h3>
+        @if (ViewBag.errorMessage.Length > 0)
+        {
+            <p class="border rounded text-danger">@ViewBag.errorMessage</p>
+        }
+        <form method="post" asp-controller="Home" asp-action="CreateNewTask">
+            <div class="mb-2">
+                <label class="form-label">Title</label>
+                <input class="form-control" type="text" name="Title" />
+            </div>
+            <div class="mb-2">
+                <label class="form-label">Description</label>
+                <input class="form-control" type="text" name="Description" />
+            </div>
+            <div class="mb-2 d-flex flex-column">
+                <label class="form-label">Status</label>
+                <select class="w-50" name="Status">
+                    <option value="Incompleted">Incompleted</option>
+                    <option value="Completed">Completed</option>
+                </select>
+            </div>
+            <div class="mb-2">
+                <label class="form-label">Deadline</label>
+                <input class="form-control" type="date" name="Deadline" />
+            </div>
+            <div class="mb-2">
+                <button class="btn btn-primary" type="submit">Create</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="w-75 text-center">
+        <h1>Tasks</h1>
+        @if (@Model.Count > 0)
+        {
+            <ul>
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col text-start text-primary fw-bolder">Title</div>
+                        <div class="col text-start text-primary fw-bolder">Description</div>
+                        <div class="col text-start text-primary fw-bolder">Status</div>
+                        <div class="col text-start text-primary fw-bolder">Deadline</div>
+                        <div class="col text-center text-primary fw-bolder">Buttons</div>
+                    </div>
+                </li>
+
+                @foreach (var item in Model)
+                {
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col d-flex align-items-center text-start fw-bold">
+                                @item.Title
+                            </div>
+                            <div class="col d-flex align-items-center text-start fw-bold">
+                                @item.Description
+                            </div>
+                            <div class="@((item.Status == "Incompleted") ? "text-danger" : "text-success") col d-flex align-items-center text-start fw-bold">
+                                @item.Status
+                            </div>
+                            <div class="col d-flex align-items-center text-start fw-bold">
+                                @item.Deadline.ToString("dd-MMM-yyyy")
+                            </div>
+                            <div class="col d-flex justify-content-center gap-2">
+                                <form method="post" asp-controller="Home" asp-action="DeleteTask">
+                                    <input type="hidden" value=@item.Id name="id" />
+                                    <button class="btn btn-danger">Del</button>
+                                </form>
+                                <form method="post" asp-controller="Home" asp-action="EditTask">
+                                    <input type="hidden" value=@item.Id name="id" />
+                                    <button class="btn btn-success">Edit</button>
+                                </form>
+
+                            </div>
+
+                        </div>
+                        </li>
+                        }
+                </ul>
+                }
+            else
+            {
+            <p>There is not found any task!</p>
+            }
+
+        </div>
+    </div>
